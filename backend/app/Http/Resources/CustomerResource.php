@@ -14,16 +14,28 @@ class CustomerResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
+        return array_merge([
             'id' => $this->id,
             'name' => $this->name,
             'reference' => $this->reference,
             'start_date' => $this->start_date->format('Y-m-d'),
             'description' => $this->description,
             'category' => $this->category->name,
-            'contacts' => ContactResource::collection($this->whenLoaded('contacts')),
             'created_at' => $this->created_at?->toDateTimeString(),
             'updated_at' => $this->updated_at?->toDateTimeString(),
+        ], $this->includeContactInfo($request));
+    }
+
+    protected function includeContactInfo(Request $request): array
+    {
+        if ($request->routeIs('customers.show')) {
+            return [
+                'contacts' => ContactResource::collection($this->whenLoaded('contacts')),
+            ];
+        }
+
+        return [
+            'contacts_count' => $this->contacts_count,
         ];
     }
 }
