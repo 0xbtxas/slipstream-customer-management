@@ -20,7 +20,7 @@ class CustomerResource extends JsonResource
             'reference' => $this->reference,
             'start_date' => $this->start_date->format('Y-m-d'),
             'description' => $this->description,
-            'category' => $this->category->name,
+            'category' => $this->category,
             'created_at' => $this->created_at?->toDateTimeString(),
             'updated_at' => $this->updated_at?->toDateTimeString(),
         ], $this->includeContactInfo($request));
