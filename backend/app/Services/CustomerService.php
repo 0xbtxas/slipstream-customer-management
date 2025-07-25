@@ -26,9 +26,12 @@ class CustomerService
         if ($search = $request->input('search')) {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('reference', 'like', "%{$search}%")
-                  ->orWhereHas('category', fn($q) => $q->where('name', 'like', "%{$search}%"));
+                    ->orWhere('reference', 'like', "%{$search}%");
             });
+        }
+
+        if ($categoryId = $request->input('category_id')) {
+            $query->where('customer_category_id', $categoryId);
         }
 
         $perPage = $request->input('per_page', 10);

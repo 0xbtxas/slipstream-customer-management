@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CustomerQueryRequest;
 use App\Models\Customer;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
@@ -18,9 +19,10 @@ class CustomerController extends Controller
     /**
      * Display a listing of all customers with their categories and contacts.
      *
+     * @param  CustomerQueryRequest  $request
      * @return AnonymousResourceCollection
      */
-    public function index(Request $request): AnonymousResourceCollection
+    public function index(CustomerQueryRequest $request): AnonymousResourceCollection
     {
         $customers = $this->service->getCustomers($request);
         return CustomerResource::collection($customers);
