@@ -10,6 +10,7 @@ Route::controller(ContactController::class)
     ->prefix('customers/{customer}/contacts')
     ->as('customers.contacts.')
     ->group(function () {
+        Route::get('/', 'index')->name('index');
         Route::post('/', 'store')->name('store');
         Route::get('{contact}', 'show')->name('show');
         Route::put('{contact}', 'update')->name('update');

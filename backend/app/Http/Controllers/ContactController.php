@@ -10,10 +10,30 @@ use App\Http\Requests\UpdateContactRequest;
 use App\Http\Resources\ContactResource;
 use App\Services\ContactService;
 use Illuminate\Http\Response;
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ContactController extends Controller
 {
     public function __construct(protected ContactService $service) {}
+
+     /**
+     * Display a listing of the contacts for the specified customer.
+     *
+     * @param  Request   $request
+     * @param  Customer  $customer
+     * @return AnonymousResourceCollection
+     */
+    public function index(Request $request, Customer $customer): AnonymousResourceCollection
+    {
+        $query = $customer->contacts()->latest();
+
+        $perPage = $request->input('per_page', 10);
+
+        return ContactResource::collection(
+            $query->paginate($perPage)->appends($request->query())
+        );
+    }
 
     /**
      * Store a newly created contact for the specified customer.
