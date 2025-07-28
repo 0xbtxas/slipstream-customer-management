@@ -14,7 +14,9 @@ use Illuminate\Http\Response;
 
 class CustomerController extends Controller
 {
-    public function __construct(protected CustomerService $service) {}
+    public function __construct(protected CustomerService $service)
+    {
+    }
 
     /**
      * Display a listing of all customers with their categories and contacts.
